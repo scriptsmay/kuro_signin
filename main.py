@@ -3,9 +3,9 @@ import time
 import datetime
 import json
 import schedule
-from bbs import getbbsforum, getpostdetail, likeposts,shareposts,getTotalGold,mingchaosignin,bbssignin
-from serverjiang import sc_send
-from notify_tg import send_notify
+from package.bbs import getbbsforum, getpostdetail, likeposts,shareposts,getTotalGold,mingchaosignin,bbssignin
+from package.serverjiang import sc_send
+from package.notify_tg import send_notify
 
 
 def sign_in():
