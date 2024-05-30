@@ -2,11 +2,9 @@
 import time
 import datetime
 import json
-import schedule
 from package.bbs import getbbsforum, getpostdetail, likeposts,shareposts,getTotalGold,mingchaosignin,bbssignin
 from package.serverjiang import sc_send
 from package.notify_tg import send_notify
-
 
 def sign_in():
     now = datetime.datetime.now()
@@ -97,15 +95,3 @@ def sign_in():
         if send_key:
             print(send_notify(name+"签到结果：", wechattext, send_key=send_key))
 
-
-# # test
-# sign_in()
-
-# 每天9点执行签到
-schedule.every().day.at("09:00").do(sign_in)
-
-while True:
-    #schedule.run_pending()
-    schedule.run_pending()
-
-    time.sleep(1)
