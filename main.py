@@ -5,6 +5,7 @@ import json
 import schedule
 from bbs import getbbsforum, getpostdetail, likeposts,shareposts,getTotalGold,mingchaosignin,bbssignin
 from serverjiang import sc_send
+from notify_tg import send_notify
 
 
 def sign_in():
@@ -12,13 +13,17 @@ def sign_in():
     month = now.strftime("%m")
 
     # 从JSON文件中读取数据
-    with open('data.json', 'r') as f:
+    with open('config.json', encoding='utf-8') as f:
         data = json.load(f)
 
     # 从数据中获取用户数据列表
     users = data['users']
 
+    # sckey
+    sckey = data['sckey']
 
+    # tg推送机器人key
+    send_key = data['send_key']
 
 
     for user in users:
@@ -30,15 +35,12 @@ def sign_in():
         devcode= user['devCode']
 
         
-
-
-        
         
         #鸣潮签到
         
 
         print(now.strftime("%Y-%m-%d"))
-        wechattext=wechattext+now.strftime("%Y-%m-%d")+" "+name+"签到\n\n"
+        wechattext=wechattext+now.strftime("%Y-%m-%d")+" "+name+"鸣潮签到\n\n"
         print(name)
         print("=====================================")
         response0=mingchaosignin(tokenraw,roleId,userId,month)
@@ -46,7 +48,6 @@ def sign_in():
         wechattext=wechattext+str(response0)+"\n\n"
         print("=====================================")
         time.sleep(1)
-
 
 
         #库街区签到
@@ -89,13 +90,18 @@ def sign_in():
         print(name+"签到完毕")
 
         # 发送微信通知
-        print(sc_send(name+"签到",wechattext,key='yourkey'))
-    
-        
-        
+        if sckey:
+            print(sc_send(name+"签到",wechattext,key=sckey))
+
+        # 发送tg推送
+        if send_key:
+            print(send_notify(name+"签到结果：", wechattext, send_key=send_key))
 
 
+# # test
+# sign_in()
 
+# 每天9点执行签到
 schedule.every().day.at("09:00").do(sign_in)
 
 while True:
