@@ -1,4 +1,3 @@
-import requests
 import urllib.parse
 import urllib.request
 def send_notify(text, desp, send_key=''):
