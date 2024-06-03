@@ -2,6 +2,7 @@
 import time
 import datetime
 import json
+import os
 from package.bbs import getbbsforum, getpostdetail, likeposts,shareposts,getTotalGold,mingchaosignin,bbssignin
 from package.serverjiang import sc_send
 from package.notify_tg import send_notify
@@ -9,9 +10,12 @@ from package.notify_tg import send_notify
 def sign_in():
     now = datetime.datetime.now()
     month = now.strftime("%m")
+    
+    # 读取配置文件
+    config_path = os.getenv('KURO_CONFIG_PATH', 'config.json') 
 
     # 从JSON文件中读取数据
-    with open('config.json', encoding='utf-8') as f:
+    with open(config_path, encoding='utf-8') as f:
         data = json.load(f)
 
     # 从数据中获取用户数据列表
